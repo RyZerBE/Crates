@@ -4,7 +4,10 @@ namespace matze\chestopening\animation\types\normal;
 
 use matze\chestopening\rarity\Rarity;
 use matze\chestopening\rarity\RarityIds;
+use matze\chestopening\utils\Settings;
+use matze\chestopening\utils\SkinUtils;
 use pocketmine\entity\Human;
+use pocketmine\entity\Skin;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\level\Level;
 use pocketmine\level\particle\FlameParticle;
@@ -60,8 +63,8 @@ class BoxEntity extends Human {
                 $skin = "Grun";
             }
         }
-        $this->skin = Server::getInstance()->getOnlinePlayers()[array_rand(Server::getInstance()->getOnlinePlayers())]->getSkin();
-        //$this->skin = new Skin("box", SkinUtils::readImage(Settings::SKIN_PATH . "Opening" . $skin . ".png"), "", "geometry.Mobs.Zombie", file_get_contents(Settings::SKIN_PATH . "ChestOpening.json"));
+        //$this->skin = Server::getInstance()->getOnlinePlayers()[array_rand(Server::getInstance()->getOnlinePlayers())]->getSkin();
+        $this->skin = new Skin("box", SkinUtils::readImage(Settings::SKIN_PATH . "Opening" . $skin . ".png"), "", "geometry.Mobs.Zombie", file_get_contents(Settings::SKIN_PATH . "ChestOpening.json"));
         parent::__construct($level, $nbt);
     }
 

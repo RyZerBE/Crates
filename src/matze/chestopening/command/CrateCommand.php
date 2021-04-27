@@ -2,6 +2,7 @@
 
 namespace matze\chestopening\command;
 
+use matze\chestopening\command\subcommand\AddSubCommand;
 use matze\chestopening\command\subcommand\HelpSubCommand;
 use matze\chestopening\command\subcommand\SubCommand;
 use matze\chestopening\command\subcommand\TestSubCommand;
@@ -24,7 +25,8 @@ class CrateCommand extends Command {
 
         $subCommands = [
             new HelpSubCommand("help", $this),
-            new TestSubCommand("test", $this)
+            new TestSubCommand("test", $this),
+            new AddSubCommand("add", $this),
         ];
         foreach ($subCommands as $subCommand) {
             $this->subCommands[$subCommand->getName()] = $subCommand;

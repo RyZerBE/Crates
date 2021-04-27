@@ -4,8 +4,10 @@ namespace matze\chestopening\session;
 
 use matze\chestopening\animation\Animation;
 use matze\chestopening\crate\Crate;
+use matze\chestopening\provider\ChestOpeningProvider;
 use matze\chestopening\rarity\Rarity;
 use matze\chestopening\reward\Reward;
+use matze\chestopening\utils\AsyncExecuter;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
 use function array_rand;
@@ -103,6 +105,12 @@ class Session {
         $this->running = false;
         $this->getReward()->onReceive($this->getPlayer());
         SessionManager::getInstance()->destroySession($this);
+
+        $player = $this->getPlayer()->getName();
+        $rarity = $this->getRarity()->getId();
+        AsyncExecuter::submitAsyncTask(function() use ($player, $rarity): void {
+            ChestOpeningProvider::removeKey($player, $rarity);
+        });
     }
 
     public function destroy(): void {

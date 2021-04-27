@@ -6,6 +6,8 @@ use matze\chestopening\animation\types\normal\BoxEntity;
 use matze\chestopening\command\CrateCommand;
 use matze\chestopening\crate\CrateManager;
 use matze\chestopening\entity\FloatingText;
+use matze\chestopening\listener\BlockPlaceListener;
+use matze\chestopening\listener\PlayerInteractListener;
 use matze\chestopening\rarity\RarityManager;
 use matze\chestopening\scheduler\CrateUpdateTask;
 use matze\chestopening\session\SessionManager;
@@ -23,6 +25,7 @@ class Loader extends PluginBase {
         self::$instance = $this;
 
         $this->initEntities();
+        $this->initListener();
 
         SessionManager::getInstance();
         CrateManager::getInstance();
@@ -46,11 +49,20 @@ class Loader extends PluginBase {
     private function initEntities(): void{
         $entities = [
             BoxEntity::class,
-            FloatingText::class,
-            Waypoint::class
+            FloatingText::class
         ];
         foreach($entities as $entity) {
             Entity::registerEntity($entity, true);
+        }
+    }
+
+    private function initListener(): void {
+        $listeners = [
+            new BlockPlaceListener(),
+            new PlayerInteractListener()
+        ];
+        foreach($listeners as $listener) {
+            Server::getInstance()->getPluginManager()->registerEvents($listener, $this);
         }
     }
 }
