@@ -14,6 +14,7 @@ use matze\chestopening\utils\AsyncExecuter;
 use matze\chestopening\utils\Vector3Utils;
 use pocketmine\Player;
 use pocketmine\Server;
+use function is_int;
 use function is_null;
 
 class CrateForm {
@@ -43,6 +44,7 @@ class CrateForm {
             $form = new SimpleForm(function(Player $player, $data) use ($crate): void {
                 if(is_null($data)) return;
                 switch($data) {
+                    case "close": return;
                     default: {
                         $rarity = RarityManager::getInstance()->getRarity($data);
                         if(is_null($rarity)) return;
