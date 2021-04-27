@@ -3,6 +3,7 @@
 namespace matze\chestopening\reward\types;
 
 use matze\chestopening\reward\Reward;
+use pocketmine\Player;
 
 class MoneyReward extends Reward {
 
@@ -24,7 +25,10 @@ class MoneyReward extends Reward {
         return "§r§a" . $this->amount . " Coin" . ($this->amount === 1 ? "" : "s");
     }
 
-    public function onReceive(): void{
+    /**
+     * @param Player $player
+     */
+    public function onReceive(Player $player): void{
         // Nö.
     }
 }

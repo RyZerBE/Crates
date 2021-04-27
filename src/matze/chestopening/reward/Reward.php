@@ -2,6 +2,8 @@
 
 namespace matze\chestopening\reward;
 
+use pocketmine\Player;
+
 abstract class Reward {
 
     /** @var int  */
@@ -24,5 +26,5 @@ abstract class Reward {
     }
 
     abstract public function getName(): string;
-    abstract public function onReceive(): void;
+    abstract public function onReceive(Player $player): void;
 }

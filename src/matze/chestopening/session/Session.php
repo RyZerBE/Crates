@@ -101,7 +101,7 @@ class Session {
 
     public function onFinish(): void {
         $this->running = false;
-        $this->getReward()->onReceive();
+        $this->getReward()->onReceive($this->getPlayer());
         SessionManager::getInstance()->destroySession($this);
     }
 

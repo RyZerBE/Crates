@@ -3,6 +3,7 @@
 namespace matze\chestopening\reward\types;
 
 use matze\chestopening\reward\Reward;
+use pocketmine\Player;
 
 class BauboStinktReward extends Reward {
 
@@ -13,7 +14,10 @@ class BauboStinktReward extends Reward {
         return "Baubo Stinkt!";
     }
 
-    public function onReceive(): void{
+    /**
+     * @param Player $player
+     */
+    public function onReceive(Player $player): void{
         // Nö.
     }
 }
