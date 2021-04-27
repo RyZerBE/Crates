@@ -2,12 +2,8 @@
 
 namespace matze\chestopening\session;
 
-use matze\chestopening\animation\Animation;
-use matze\chestopening\crate\Crate;
-use matze\chestopening\rarity\Rarity;
 use matze\chestopening\utils\InstantiableTrait;
 use pocketmine\Player;
-use function is_null;
 
 class SessionManager {
     use InstantiableTrait;
@@ -20,20 +16,6 @@ class SessionManager {
      */
     public function getSessions(): array{
         return $this->sessions;
-    }
-
-    /**
-     * @param Player $player
-     * @param Animation $animation
-     * @param Rarity $rarity
-     * @param Crate $crate
-     * @return Session
-     */
-    public function createSession(Player $player, Animation $animation, Rarity $rarity, Crate $crate): Session {
-        if(!is_null(($session = $this->getSession($player)))) return $session;
-        $session = new Session($player, $animation, $rarity, $crate);
-        $this->addSession($session);
-        return $session;
     }
 
     /**

@@ -4,9 +4,13 @@ namespace matze\chestopening\entity;
 
 use pocketmine\entity\Entity;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\level\ChunkLoader;
+use pocketmine\level\format\Chunk;
 use pocketmine\level\Position;
+use pocketmine\math\Vector3;
 use pocketmine\Player;
 use function is_null;
+use function spl_object_id;
 
 /**
  * Class FloatingText
@@ -16,7 +20,7 @@ use function is_null;
  * Do not complain about this code
  * It´s over 6 months old and I was too lazy to write a new one
  */
-class FloatingText extends Entity {
+class FloatingText extends Entity implements ChunkLoader {
 
     /** @var int  */
     public const NETWORK_ID = self::VILLAGER;
@@ -38,10 +42,11 @@ class FloatingText extends Entity {
 
     /**
      * FloatingText constructor.
-     * @param Position $position
+     * @param Position|null $position
      * @param Player ...$viewers
      */
-    public function __construct(Position $position, Player ...$viewers) {
+    public function __construct(?Position $position = null, Player ...$viewers) {
+        if(is_null($position)) return;
         $this->forcePosition = $position;
         $level = $position->getLevel();
         $nbt = Entity::createBaseNBT($position);
@@ -126,5 +131,34 @@ class FloatingText extends Entity {
      */
     public function canCollideWith(Entity $entity): bool {
         return false;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLoaderId(): int{
+        return spl_object_id($this);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLoaderActive(): bool{
+        return $this->isAlive() && !$this->isClosed();
+    }
+
+    public function onChunkPopulated(Chunk $chunk){
+    }
+
+    public function onBlockChanged(Vector3 $block){
+    }
+
+    public function onChunkChanged(Chunk $chunk){
+    }
+
+    public function onChunkLoaded(Chunk $chunk){
+    }
+
+    public function onChunkUnloaded(Chunk $chunk){
     }
 }

@@ -11,10 +11,9 @@ use matze\chestopening\rarity\RarityManager;
 use matze\chestopening\session\Session;
 use matze\chestopening\session\SessionManager;
 use matze\chestopening\utils\AsyncExecuter;
-use matze\chestopening\utils\Vector3Utils;
+use matze\chestopening\utils\PositionUtils;
 use pocketmine\Player;
 use pocketmine\Server;
-use function is_int;
 use function is_null;
 
 class CrateForm {
@@ -25,7 +24,7 @@ class CrateForm {
      */
     public static function open(Player $player, Crate $crate): void {
         $player = $player->getName();
-        $crate = Vector3Utils::toString($crate->getVector3());
+        $crate = PositionUtils::toString($crate->getPosition());
         $rarities = [];
         foreach(RarityManager::getInstance()->getRarities() as $rarity) {
             $rarities[] = $rarity->getId();
@@ -39,7 +38,7 @@ class CrateForm {
         }, function(Server $server, array $result) use ($player, $crate): void {
             $player = $server->getPlayerExact($player);
             if(is_null($player)) return;
-            $crate = CrateManager::getInstance()->getCrate(Vector3Utils::fromString($crate));
+            $crate = CrateManager::getInstance()->getCrate(PositionUtils::fromString($crate));
             if(is_null($crate)) return;
             $form = new SimpleForm(function(Player $player, $data) use ($crate): void {
                 if(is_null($data)) return;
@@ -50,6 +49,10 @@ class CrateForm {
                         if(is_null($rarity)) return;
                         if($crate->isInUse()) {
                             $player->sendMessage("Crate is currently in use. Please wait a moment.");//todo: message
+                            return;
+                        }
+                        if(!is_null(SessionManager::getInstance()->getSession($player))) {
+                            $player->sendMessage("You are already opening a crate.");//todo: message
                             return;
                         }
                         SessionManager::getInstance()->addSession(new Session($player, new NormalAnimation(), $rarity, $crate));

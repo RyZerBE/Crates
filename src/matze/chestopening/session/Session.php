@@ -4,12 +4,14 @@ namespace matze\chestopening\session;
 
 use matze\chestopening\animation\Animation;
 use matze\chestopening\crate\Crate;
+use matze\chestopening\Loader;
 use matze\chestopening\provider\ChestOpeningProvider;
 use matze\chestopening\rarity\Rarity;
 use matze\chestopening\reward\Reward;
 use matze\chestopening\utils\AsyncExecuter;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
+use pocketmine\scheduler\ClosureTask;
 use function array_rand;
 
 class Session {
@@ -111,6 +113,9 @@ class Session {
         AsyncExecuter::submitAsyncTask(function() use ($player, $rarity): void {
             ChestOpeningProvider::removeKey($player, $rarity);
         });
+        Loader::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function(int $tick): void {
+
+        }), 40);
     }
 
     public function destroy(): void {
@@ -118,7 +123,9 @@ class Session {
             if($entity->isClosed() || $entity->isFlaggedForDespawn()) continue;
             $entity->flagForDespawn();
         }
-        $this->getCrate()->setInUse(false);
+        Loader::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function(int $tick): void {
+            $this->getCrate()->setInUse(false);
+        }), 40);
     }
 
     public function onUpdate(): void {

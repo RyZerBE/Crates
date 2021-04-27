@@ -31,7 +31,7 @@ class NormalAnimation extends Animation {
         $crate = $session->getCrate();
         switch($tick) {
             case 0: {
-                $nbt = Entity::createBaseNBT($crate->getVector3());
+                $nbt = Entity::createBaseNBT($crate->getPosition());
                 $this->boxEntity = new BoxEntity($player->getLevel(), $nbt, $rarity);
                 $this->boxEntity->spawnToAll();
                 $session->addEntity($this->boxEntity);
@@ -41,7 +41,7 @@ class NormalAnimation extends Animation {
                 if(!is_null($this->boxEntity)) {
                     if($this->boxEntity->isClosed()) {
                         $session->removeEntity($this->boxEntity);
-                        $text = new FloatingText(new Position($crate->getVector3()->x, $crate->getVector3()->y + 1, $crate->getVector3()->z, $player->getLevel()));
+                        $text = new FloatingText(new Position($crate->getPosition()->x, $crate->getPosition()->y + 1, $crate->getPosition()->z, $player->getLevel()));
                         $text->setText("§r§a" . $session->getReward()->getName());
                         $text->setLifeTime(40);
                         $this->onFinish();

@@ -2,28 +2,34 @@
 
 namespace matze\chestopening\crate;
 
-use pocketmine\math\Vector3;
+use matze\chestopening\entity\FloatingText;
+use pocketmine\level\Position;
+use function is_null;
 
 class Crate {
 
-    /** @var Vector3 */
-    private $vector3;
+    /** @var Position */
+    private $position;
     /** @var bool  */
     private $inUse = false;
+    /** @var FloatingText */
+    private $floatingText;
 
     /**
      * Crate constructor.
-     * @param Vector3 $vector3
+     * @param Position $position
      */
-    public function __construct(Vector3 $vector3){
-        $this->vector3 = $vector3->floor()->add(0.5, 0, 0.5);
+    public function __construct(Position $position){
+        $vector3 = $position->floor()->add(0.5, 0, 0.5);
+        $this->position = new Position($vector3->x, $vector3->y, $vector3->z, $position->getLevel());
+        $this->initFloatingText();
     }
 
     /**
-     * @return Vector3
+     * @return Position
      */
-    public function getVector3(): Vector3{
-        return $this->vector3;
+    public function getPosition(): Position{
+        return $this->position;
     }
 
     /**
@@ -34,9 +40,28 @@ class Crate {
     }
 
     /**
+     * @return FloatingText
+     */
+    public function getFloatingText(): FloatingText{
+        return $this->floatingText;
+    }
+
+    /**
      * @param bool $inUse
      */
     public function setInUse(bool $inUse): void{
         $this->inUse = $inUse;
+        $this->initFloatingText();
+    }
+
+    private function initFloatingText(): void {
+        if($this->isInUse()) {
+            if(is_null($this->floatingText) || $this->floatingText->isClosed()) return;
+            $this->floatingText->flagForDespawn();
+            return;
+        }
+        $this->floatingText = new FloatingText(new Position($this->getPosition()->x, $this->getPosition()->y + 1, $this->getPosition()->z, $this->getPosition()->getLevel()));
+        $this->floatingText->setLifeTime(null);
+        $this->floatingText->setText("§r§lChestOpening\n§7[Click]");
     }
 }
