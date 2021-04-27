@@ -18,8 +18,6 @@ use pocketmine\level\sound\PopSound;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\LevelSoundEventPacket;
-use pocketmine\Server;
-use function array_rand;
 use function is_null;
 use function mt_rand;
 

@@ -6,12 +6,12 @@ use matze\chestopening\animation\types\normal\BoxEntity;
 use matze\chestopening\command\CrateCommand;
 use matze\chestopening\crate\CrateManager;
 use matze\chestopening\entity\FloatingText;
+use matze\chestopening\listener\BlockBreakListener;
 use matze\chestopening\listener\BlockPlaceListener;
 use matze\chestopening\listener\PlayerInteractListener;
 use matze\chestopening\rarity\RarityManager;
 use matze\chestopening\scheduler\CrateUpdateTask;
 use matze\chestopening\session\SessionManager;
-use matze\city\waypoint\Waypoint;
 use pocketmine\entity\Entity;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
@@ -59,7 +59,8 @@ class Loader extends PluginBase {
     private function initListener(): void {
         $listeners = [
             new BlockPlaceListener(),
-            new PlayerInteractListener()
+            new PlayerInteractListener(),
+            new BlockBreakListener()
         ];
         foreach($listeners as $listener) {
             Server::getInstance()->getPluginManager()->registerEvents($listener, $this);
