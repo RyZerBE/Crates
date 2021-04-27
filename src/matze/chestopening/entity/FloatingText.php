@@ -45,8 +45,8 @@ class FloatingText extends Entity implements ChunkLoader {
      * @param Position|null $position
      * @param Player ...$viewers
      */
-    public function __construct(?Position $position = null, Player ...$viewers) {
-        if(is_null($position)) return;
+    public function __construct($position = null, ...$viewers) {
+        if(!$position instanceof Position) return;
         $this->forcePosition = $position;
         $level = $position->getLevel();
         $nbt = Entity::createBaseNBT($position);
@@ -55,7 +55,10 @@ class FloatingText extends Entity implements ChunkLoader {
         if(empty($viewers)) {
             $this->spawnToAll();
         } else {
-            foreach ($viewers as $player) $this->spawnTo($player);
+            foreach ($viewers as $player) {
+                if(!$viewers instanceof Player) continue;
+                $this->spawnTo($player);
+            }
         }
 
         $this->setGenericFlag(self::DATA_FLAG_SILENT, true);
