@@ -2,8 +2,10 @@
 
 namespace matze\chestopening\listener;
 
+use BauboLP\Core\Provider\LanguageProvider;
 use matze\chestopening\crate\CrateManager;
 use matze\chestopening\form\CrateForm;
+use matze\chestopening\Loader;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use function is_null;
@@ -26,7 +28,7 @@ class PlayerInteractListener implements Listener {
         if(($this->cooldown[$name] ?? 0) >= time()) return;
         $this->cooldown[$name] = time();
         if($crate->isInUse()) {
-            $player->sendMessage("Crate is currently in use. Please wait a moment.");//todo: message
+            $player->sendMessage(Loader::PREFIX.LanguageProvider::getMessageContainer("crate-in-use", $player->getName()));
             return;
         }
         CrateForm::open($player, $crate);

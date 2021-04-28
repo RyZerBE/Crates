@@ -10,7 +10,7 @@ class ChestOpeningProvider {
      * @param int $amount
      */
     public static function addKey(string $player, int $rarity, int $amount = 1): void {
-        //todo
+        //TODO: add key to player
     }
 
     /**
@@ -19,7 +19,7 @@ class ChestOpeningProvider {
      * @param int $amount
      */
     public static function removeKey(string $player, int $rarity, int $amount = 1): void {
-        //todo
+        //TODO: remove key from player
     }
 
     /**
@@ -28,6 +28,7 @@ class ChestOpeningProvider {
      * @return int
      */
     public static function getKeys(string $player, int $rarity): int {
+        //TODO: get player keys
         return 100;
     }
 }

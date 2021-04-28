@@ -15,11 +15,14 @@ use matze\chestopening\session\SessionManager;
 use pocketmine\entity\Entity;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
+use pocketmine\utils\TextFormat;
 
 class Loader extends PluginBase {
 
     /** @var Loader */
     private static $instance;
+
+    const PREFIX = TextFormat::LIGHT_PURPLE."Crates ".TextFormat::RESET;
 
     public function onEnable(){
         self::$instance = $this;

@@ -46,6 +46,7 @@ class Session {
         $this->crate = $crate;
 
         $rewards = [];
+        /** @var Reward $reward */
         foreach($rarity->getRewards($animation) as $reward) {
             for($int = 0; $int <= $reward->getChance(); $int++) $rewards[] = $reward;
         }

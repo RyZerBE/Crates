@@ -2,10 +2,12 @@
 
 namespace matze\chestopening\form;
 
+use BauboLP\Core\Provider\LanguageProvider;
 use jojoe77777\FormAPI\SimpleForm;
 use matze\chestopening\animation\types\normal\NormalAnimation;
 use matze\chestopening\crate\Crate;
 use matze\chestopening\crate\CrateManager;
+use matze\chestopening\Loader;
 use matze\chestopening\provider\ChestOpeningProvider;
 use matze\chestopening\rarity\RarityManager;
 use matze\chestopening\session\Session;
@@ -48,18 +50,18 @@ class CrateForm {
                         $rarity = RarityManager::getInstance()->getRarity($data);
                         if(is_null($rarity)) return;
                         if($crate->isInUse()) {
-                            $player->sendMessage("Crate is currently in use. Please wait a moment.");//todo: message
+                            $player->sendMessage(Loader::PREFIX.LanguageProvider::getMessageContainer("crate-in-use", $player->getName()));
                             return;
                         }
                         if(!is_null(SessionManager::getInstance()->getSession($player))) {
-                            $player->sendMessage("You are already opening a crate.");//todo: message
+                            $player->sendMessage(Loader::PREFIX.LanguageProvider::getMessageContainer("crate-already-opening", $player->getName()));
                             return;
                         }
                         SessionManager::getInstance()->addSession(new Session($player, new NormalAnimation(), $rarity, $crate));
                     }
                 }
             });
-            $form->setTitle("§r§lChestOpening");
+            $form->setTitle(Loader::PREFIX);
             foreach(RarityManager::getInstance()->getRarities() as $rarity) {
                 $form->addButton($rarity->getTextFormat() . $rarity->getName() . " §7[§8" . $result["Keys"][$rarity->getId()] . "§7]", 0, "", $rarity->getId());
             }
