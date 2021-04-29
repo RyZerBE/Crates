@@ -2,14 +2,21 @@
 
 namespace matze\chestopening\provider;
 
+use BauboLP\Core\Provider\AsyncExecutor;
+use pocketmine\Server;
+
 class ChestOpeningProvider {
+    /** @var array  */
+    public static $keys = [];
 
     /**
      * @param string $player
      * @param int $amount
      */
     public static function addKey(string $player, int $amount = 1): void {
-        //TODO: add key to player
+        AsyncExecutor::submitMySQLAsyncTask("Lobby", function (\mysqli $mysqli) use ($player, $amount){
+            $mysqli->query("UPDATE `Crates` SET cratekeys=cratekeys+'$amount' WHERE playername='$player'");
+        });
     }
 
     /**
@@ -17,7 +24,9 @@ class ChestOpeningProvider {
      * @param int $amount
      */
     public static function removeKey(string $player, int $amount = 1): void {
-        //TODO: remove key from player
+        AsyncExecutor::submitMySQLAsyncTask("Lobby", function (\mysqli $mysqli) use ($player, $amount){
+            $mysqli->query("UPDATE `Crates` SET cratekeys=cratekeys-'$amount' WHERE playername='$player'");
+        });
     }
 
     /**
@@ -25,6 +34,20 @@ class ChestOpeningProvider {
      * @return int
      */
     public static function getKeys(string $player): int {
-        return 100;
+        $keys = 0;
+        if(!isset(self::$keys[$player])) {
+            AsyncExecutor::submitMySQLAsyncTask("Lobby", function (\mysqli $mysqli) use ($player){
+                $res = $mysqli->query("SELECT * FROM Crates WHERE playername='$player'");
+                if($res->num_rows > 0)
+                    ChestOpeningProvider::$keys[$player] = $res->fetch_assoc()[0]["cratekeys"];
+                else
+                    $mysqli->query("INSERT INTO `Crates`(`playername`, `cratekeys`) VALUES ('$player', '0')");
+            }, function (Server $server, $result) use (&$keys){
+                $keys = $result;
+            });
+        }else
+            $keys = self::$keys[$player];
+
+        return $keys;
     }
 }

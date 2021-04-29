@@ -2,6 +2,7 @@
 
 namespace matze\chestopening\session;
 
+use BauboLP\Core\Provider\AsyncExecutor;
 use matze\chestopening\animation\Animation;
 use matze\chestopening\crate\Crate;
 use matze\chestopening\Loader;
@@ -99,9 +100,7 @@ class Session {
         SessionManager::getInstance()->destroySession($this);
 
         $player = $this->getPlayer()->getName();
-        AsyncExecuter::submitAsyncTask(function() use ($player): void {
-            ChestOpeningProvider::removeKey($player);
-        });
+        ChestOpeningProvider::removeKey($player);
     }
 
     public function destroy(): void {

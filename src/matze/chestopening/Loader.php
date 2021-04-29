@@ -2,6 +2,7 @@
 
 namespace matze\chestopening;
 
+use BauboLP\Core\Provider\AsyncExecutor;
 use matze\chestopening\animation\types\normal\BoxEntity;
 use matze\chestopening\command\CrateCommand;
 use matze\chestopening\crate\CrateManager;
@@ -24,7 +25,7 @@ class Loader extends PluginBase {
     /** @var Loader */
     private static $instance;
 
-    const PREFIX = TextFormat::LIGHT_PURPLE."Crates ".TextFormat::RESET;
+    const PREFIX = TextFormat::LIGHT_PURPLE.TextFormat::BOLD."Crates ".TextFormat::RESET;
 
     public function onEnable(){
         self::$instance = $this;
@@ -35,6 +36,10 @@ class Loader extends PluginBase {
         SessionManager::getInstance();
         CrateManager::getInstance();
         RewardManager::registerRewards();
+
+        AsyncExecutor::submitMySQLAsyncTask("Lobby", function (\mysqli $mysql){
+            $mysql->query("CREATE TABLE IF NOT EXISTS `Crates`(id INTEGER NOT NULL KEY AUTO_INCREMENT, playername varchar(32) NOT NULL, cratekeys int NOT NULL)");
+        });
 
         $this->getScheduler()->scheduleRepeatingTask(new CrateUpdateTask(), 1);
         Server::getInstance()->getCommandMap()->register("chestopening", new CrateCommand());
