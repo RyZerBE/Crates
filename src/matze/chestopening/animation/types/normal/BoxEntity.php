@@ -4,6 +4,7 @@ namespace matze\chestopening\animation\types\normal;
 
 use matze\chestopening\rarity\Rarity;
 use matze\chestopening\rarity\RarityIds;
+use matze\chestopening\reward\RewardManager;
 use matze\chestopening\utils\Settings;
 use matze\chestopening\utils\SkinUtils;
 use pocketmine\entity\Human;
@@ -28,8 +29,6 @@ class BoxEntity extends Human {
     /** @var float  */
     public $height = 0.45;
 
-    /** @var Rarity */
-    private $rarity;
     /** @var int */
     private $startY;
     /** @var int  */
@@ -37,30 +36,13 @@ class BoxEntity extends Human {
 
     /**
      * BoxEntity constructor.
+     *
      * @param Level $level
      * @param CompoundTag $nbt
-     * @param Rarity|null $rarity
+     * @param int $chance
      */
-    public function __construct(Level $level, CompoundTag $nbt, ?Rarity $rarity = null){
-        if(is_null($rarity)) return;
-        $this->rarity = $rarity;
-        switch($rarity->getId()) {
-            case RarityIds::RARITY_RARE: {
-                $skin = "Gold";
-                break;
-            }
-            case RarityIds::RARITY_EPIC: {
-                $skin = "Lila";
-                break;
-            }
-            case RarityIds::RARITY_LEGENDARY: {
-                $skin = "Turkis";
-                break;
-            }
-            default: {
-                $skin = "Grun";
-            }
-        }
+    public function __construct(Level $level, CompoundTag $nbt, int $chance){
+        $skin = RewardManager::getRarityPicSub($chance);
         //$this->skin = Server::getInstance()->getOnlinePlayers()[array_rand(Server::getInstance()->getOnlinePlayers())]->getSkin();
         $this->skin = new Skin("box", SkinUtils::readImage(Settings::SKIN_PATH . "Opening" . $skin . ".png"), "", "geometry.Mobs.Zombie", file_get_contents(Settings::SKIN_PATH . "ChestOpening.json"));
         parent::__construct($level, $nbt);
@@ -72,13 +54,6 @@ class BoxEntity extends Human {
         $this->waitTicksForMotion = 10;
         $this->teleport($this->subtract(0, 5));
         $this->sendSkin();
-    }
-
-    /**
-     * @return Rarity
-     */
-    public function getRarity(): Rarity{
-        return $this->rarity;
     }
 
     /**

@@ -7,7 +7,7 @@ use pocketmine\Player;
 abstract class Reward {
 
     /** @var int  */
-    private $chance = 100;
+    public $chance = 100;
 
     /**
      * @return int
@@ -17,11 +17,11 @@ abstract class Reward {
     }
 
     /**
-     * @param int $chance
+     * @param int $percent
      * @return Reward
      */
-    public function setChance(int $chance): Reward{
-        $this->chance = $chance;
+    public function setChance(int $percent): Reward{
+        $this->chance = $percent;
         return $this;
     }
 

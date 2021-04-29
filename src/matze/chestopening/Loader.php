@@ -10,6 +10,8 @@ use matze\chestopening\listener\BlockBreakListener;
 use matze\chestopening\listener\BlockPlaceListener;
 use matze\chestopening\listener\PlayerInteractListener;
 use matze\chestopening\rarity\RarityManager;
+use matze\chestopening\reward\Reward;
+use matze\chestopening\reward\RewardManager;
 use matze\chestopening\scheduler\CrateUpdateTask;
 use matze\chestopening\session\SessionManager;
 use pocketmine\entity\Entity;
@@ -32,7 +34,7 @@ class Loader extends PluginBase {
 
         SessionManager::getInstance();
         CrateManager::getInstance();
-        RarityManager::getInstance();
+        RewardManager::registerRewards();
 
         $this->getScheduler()->scheduleRepeatingTask(new CrateUpdateTask(), 1);
         Server::getInstance()->getCommandMap()->register("chestopening", new CrateCommand());

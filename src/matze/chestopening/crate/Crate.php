@@ -3,7 +3,9 @@
 namespace matze\chestopening\crate;
 
 use matze\chestopening\entity\FloatingText;
+use matze\chestopening\Loader;
 use pocketmine\level\Position;
+use pocketmine\utils\TextFormat;
 use function is_null;
 
 class Crate {
@@ -62,6 +64,6 @@ class Crate {
         }
         $this->floatingText = new FloatingText(new Position($this->getPosition()->x, $this->getPosition()->y + 1, $this->getPosition()->z, $this->getPosition()->getLevel()));
         $this->floatingText->setLifeTime(null);
-        $this->floatingText->setText("§r§lChestOpening\n§7[Click]");
+        $this->floatingText->setText(Loader::PREFIX."\n".TextFormat::GRAY."["."Click"."]");
     }
 }

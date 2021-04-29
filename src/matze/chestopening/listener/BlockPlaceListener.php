@@ -18,6 +18,7 @@ class BlockPlaceListener implements Listener {
     public function onPlace(BlockPlaceEvent $event): void {
         $item = $event->getItem();
         $block = $event->getBlock();
+        $player = $event->getPlayer();
         if(!ItemUtils::hasItemTag($item, "crate")) return;
         $crate = new Crate($block);
         CrateManager::getInstance()->addCrate($crate);

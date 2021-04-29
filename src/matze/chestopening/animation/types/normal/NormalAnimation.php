@@ -4,6 +4,7 @@ namespace matze\chestopening\animation\types\normal;
 
 use matze\chestopening\animation\Animation;
 use matze\chestopening\entity\FloatingText;
+use matze\chestopening\reward\RewardManager;
 use pocketmine\entity\Entity;
 use pocketmine\level\Position;
 use function is_null;
@@ -26,13 +27,12 @@ class NormalAnimation extends Animation {
     public function onUpdate(int $tick): void{
         $session = $this->getSession();
         if(is_null($session)) return;
-        $rarity = $session->getRarity();
         $player = $session->getPlayer();
         $crate = $session->getCrate();
         switch($tick) {
             case 0: {
                 $nbt = Entity::createBaseNBT($crate->getPosition());
-                $this->boxEntity = new BoxEntity($player->getLevel(), $nbt, $rarity);
+                $this->boxEntity = new BoxEntity($player->getLevel(), $nbt, $session->getReward()->getChance());
                 $this->boxEntity->spawnToAll();
                 $session->addEntity($this->boxEntity);
                 break;
@@ -42,7 +42,7 @@ class NormalAnimation extends Animation {
                     if($this->boxEntity->isClosed()) {
                         $session->removeEntity($this->boxEntity);
                         $text = new FloatingText(new Position($crate->getPosition()->x, $crate->getPosition()->y + 1, $crate->getPosition()->z, $player->getLevel()));
-                        $text->setText("§r§a" . $session->getReward()->getName());
+                        $text->setText("§r§a" . $session->getReward()->getName()."\n".RewardManager::getRarity($session->getReward()->getChance()));
                         $text->setLifeTime(40);
                         $this->onFinish();
                         return;

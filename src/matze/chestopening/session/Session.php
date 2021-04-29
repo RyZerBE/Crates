@@ -8,6 +8,8 @@ use matze\chestopening\Loader;
 use matze\chestopening\provider\ChestOpeningProvider;
 use matze\chestopening\rarity\Rarity;
 use matze\chestopening\reward\Reward;
+use matze\chestopening\reward\RewardManager;
+use matze\chestopening\reward\types\MoneyReward;
 use matze\chestopening\utils\AsyncExecuter;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
@@ -34,23 +36,17 @@ class Session {
 
     /**
      * Session constructor.
+     *
      * @param Player $player
      * @param Animation $animation
-     * @param Rarity $rarity
      * @param Crate $crate
      */
-    public function __construct(Player $player, Animation $animation, Rarity $rarity, Crate $crate) {
+    public function __construct(Player $player, Animation $animation, Crate $crate) {
         $this->player = $player;
+        $this->reward = RewardManager::getCalculatedReward() ?? new MoneyReward(1);
         $this->animation = $animation;
-        $this->rarity = $rarity;
         $this->crate = $crate;
 
-        $rewards = [];
-        /** @var Reward $reward */
-        foreach($rarity->getRewards($animation) as $reward) {
-            for($int = 0; $int <= $reward->getChance(); $int++) $rewards[] = $reward;
-        }
-        $this->reward = $rewards[array_rand($rewards)];
         $animation->setSession($this);
         $crate->setInUse(true);
     }
@@ -67,13 +63,6 @@ class Session {
      */
     public function getAnimation(): Animation{
         return $this->animation;
-    }
-
-    /**
-     * @return Rarity
-     */
-    public function getRarity(): Rarity{
-        return $this->rarity;
     }
 
     /**
@@ -110,13 +99,9 @@ class Session {
         SessionManager::getInstance()->destroySession($this);
 
         $player = $this->getPlayer()->getName();
-        $rarity = $this->getRarity()->getId();
-        AsyncExecuter::submitAsyncTask(function() use ($player, $rarity): void {
-            ChestOpeningProvider::removeKey($player, $rarity);
+        AsyncExecuter::submitAsyncTask(function() use ($player): void {
+            ChestOpeningProvider::removeKey($player);
         });
-        Loader::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function(int $tick): void {
-
-        }), 40);
     }
 
     public function destroy(): void {
