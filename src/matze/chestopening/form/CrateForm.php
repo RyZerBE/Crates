@@ -16,6 +16,7 @@ use matze\chestopening\utils\AsyncExecuter;
 use matze\chestopening\utils\PositionUtils;
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\utils\TextFormat;
 use function is_null;
 
 class CrateForm {
@@ -27,28 +28,23 @@ class CrateForm {
     public static function open(Player $player, Crate $crate): void {
         $player = $player->getName();
         $crate = PositionUtils::toString($crate->getPosition());
-        $rarities = [];
-        foreach(RarityManager::getInstance()->getRarities() as $rarity) {
-            $rarities[] = $rarity->getId();
-        }
-        AsyncExecuter::submitAsyncTask(function() use ($player, $rarities): array {
+        AsyncExecuter::submitAsyncTask(function() use ($player): array {
             $result = [];
-            foreach($rarities as $rarity) {
-                $result["Keys"][$rarity] = ChestOpeningProvider::getKeys($player, $rarity);
-            }
+            $result["Keys"] = ChestOpeningProvider::getKeys($player);
             return $result;
         }, function(Server $server, array $result) use ($player, $crate): void {
             $player = $server->getPlayerExact($player);
             if(is_null($player)) return;
             $crate = CrateManager::getInstance()->getCrate(PositionUtils::fromString($crate));
             if(is_null($crate)) return;
+            if($result["Keys"] <= 0) {
+                $player->sendMessage(Loader::PREFIX.LanguageProvider::getMessageContainer('crate-no-keys', $player->getName()));
+            }
             $form = new SimpleForm(function(Player $player, $data) use ($crate): void {
                 if(is_null($data)) return;
                 switch($data) {
                     case "close": return;
                     default: {
-                        $rarity = RarityManager::getInstance()->getRarity($data);
-                        if(is_null($rarity)) return;
                         if($crate->isInUse()) {
                             $player->sendMessage(Loader::PREFIX.LanguageProvider::getMessageContainer("crate-in-use", $player->getName()));
                             return;
@@ -57,14 +53,13 @@ class CrateForm {
                             $player->sendMessage(Loader::PREFIX.LanguageProvider::getMessageContainer("crate-already-opening", $player->getName()));
                             return;
                         }
-                        SessionManager::getInstance()->addSession(new Session($player, new NormalAnimation(), $rarity, $crate));
+                        SessionManager::getInstance()->addSession(new Session($player, new NormalAnimation(), $crate));
                     }
                 }
             });
             $form->setTitle(Loader::PREFIX);
-            foreach(RarityManager::getInstance()->getRarities() as $rarity) {
-                $form->addButton($rarity->getTextFormat() . $rarity->getName() . " §7[§8" . $result["Keys"][$rarity->getId()] . "§7]", 0, "", $rarity->getId());
-            }
+                $form->addButton(TextFormat::GOLD.TextFormat::GOLD. $result["Keys"]."x Keys\n".TextFormat::GRAY."Click to open", 0, "", "open");
+
             $form->addButton("§r§cClose", 0, "textures/ui/realms_red_x", "close");
             $form->sendToPlayer($player);
         });
