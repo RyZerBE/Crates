@@ -36,12 +36,12 @@ class RewardManager
     public static function registerRewards(): void
     {
         $rewards = [
-            (new MoneyReward(1000))->setChance(85),
-            (new MoneyReward(2000))->setChance(75),
-            (new MoneyReward(3000))->setChance(71),
+            (new MoneyReward(1000))->setChance(80),
+            (new MoneyReward(2000))->setChance(80),
+            (new MoneyReward(3000))->setChance(80),
             (new FarmerWalkingBlock())->setChance(80),
             (new LavaParticle())->setChance(80),
-            (new MoneyReward(5000))->setChance(80),
+            (new MoneyReward(5000))->setChance(75),
             (new GlassesWalkingBlock())->setChance(70),
             (new HappyVillagerParticle())->setChance(70),
             (new RichRichWalkingBlock())->setChance(70),
