@@ -2,6 +2,7 @@
 
 namespace matze\chestopening\reward\types;
 
+use BauboLP\Core\Provider\CoinProvider;
 use matze\chestopening\reward\Reward;
 use pocketmine\Player;
 
@@ -29,6 +30,6 @@ class MoneyReward extends Reward {
      * @param Player $player
      */
     public function onReceive(Player $player): void{
-        // Nö.
+        CoinProvider::addCoins($player->getName(), $this->amount);
     }
 }

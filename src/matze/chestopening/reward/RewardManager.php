@@ -4,7 +4,19 @@
 namespace matze\chestopening\reward;
 
 
-use matze\chestopening\reward\types\BauboStinktReward;
+use matze\chestopening\reward\types\flagwars\DemolitionistKit;
+use matze\chestopening\reward\types\flagwars\StarterKit;
+use matze\chestopening\reward\types\flagwars\VampireKit;
+use matze\chestopening\reward\types\lobby\CoinBomb;
+use matze\chestopening\reward\types\lobby\LottoTicket;
+use matze\chestopening\reward\types\lobby\particle\AngryVillagerParticle;
+use matze\chestopening\reward\types\lobby\particle\HappyVillagerParticle;
+use matze\chestopening\reward\types\lobby\particle\LavaParticle;
+use matze\chestopening\reward\types\lobby\special\SpidermanGun;
+use matze\chestopening\reward\types\lobby\walkingblock\FarmerWalkingBlock;
+use matze\chestopening\reward\types\lobby\walkingblock\GlassesWalkingBlock;
+use matze\chestopening\reward\types\lobby\walkingblock\RichRichWalkingBlock;
+use matze\chestopening\reward\types\lobby\wing\FireWings;
 use matze\chestopening\reward\types\MoneyReward;
 use pocketmine\utils\TextFormat;
 
@@ -24,10 +36,24 @@ class RewardManager
     public static function registerRewards(): void
     {
         $rewards = [
-            (new MoneyReward(500))->setChance(80),
-            (new MoneyReward(5000))->setChance(70),
-            (new MoneyReward(50000))->setChance(40),
-            (new BauboStinktReward())->setChance(80),
+            (new MoneyReward(1000))->setChance(85),
+            (new MoneyReward(2000))->setChance(75),
+            (new MoneyReward(3000))->setChance(71),
+            (new FarmerWalkingBlock())->setChance(80),
+            (new LavaParticle())->setChance(80),
+            (new MoneyReward(5000))->setChance(80),
+            (new GlassesWalkingBlock())->setChance(70),
+            (new HappyVillagerParticle())->setChance(70),
+            (new RichRichWalkingBlock())->setChance(70),
+            (new AngryVillagerParticle())->setChance(70),
+            (new LottoTicket(5))->setChance(70),
+            (new LottoTicket(12))->setChance(40),
+            (new FireWings())->setChance(40),
+            (new CoinBomb())->setChance(40),
+            (new SpidermanGun())->setChance(40),
+            (new StarterKit())->setChance(10),
+            (new VampireKit())->setChance(10),
+            (new DemolitionistKit())->setChance(10),
         ];
 
         foreach ($rewards as $reward)
