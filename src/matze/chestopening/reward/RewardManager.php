@@ -36,18 +36,18 @@ class RewardManager
     public static function registerRewards(): void
     {
         $rewards = [
-            (new MoneyReward(1000))->setChance(80),
-            (new MoneyReward(2000))->setChance(80),
-            (new MoneyReward(3000))->setChance(80),
-            (new FarmerWalkingBlock())->setChance(80),
-            (new LavaParticle())->setChance(80),
-            (new MoneyReward(5000))->setChance(75),
-            (new GlassesWalkingBlock())->setChance(70),
-            (new HappyVillagerParticle())->setChance(70),
-            (new RichRichWalkingBlock())->setChance(70),
-            (new AngryVillagerParticle())->setChance(70),
-            (new LottoTicket(5))->setChance(70),
-            (new LottoTicket(12))->setChance(40),
+            (new MoneyReward(1000))->setChance(70),
+            (new MoneyReward(2000))->setChance(70),
+            (new MoneyReward(3000))->setChance(70),
+            (new FarmerWalkingBlock())->setChance(70),
+            (new LavaParticle())->setChance(70),
+            (new MoneyReward(5000))->setChance(70),
+            (new GlassesWalkingBlock())->setChance(65),
+            (new HappyVillagerParticle())->setChance(65),
+            (new RichRichWalkingBlock())->setChance(65),
+            (new AngryVillagerParticle())->setChance(65),
+            (new LottoTicket(5))->setChance(65),
+            (new LottoTicket(12))->setChance(65),
             (new FireWings())->setChance(40),
             (new CoinBomb())->setChance(40),
             (new SpidermanGun())->setChance(40),
@@ -70,7 +70,7 @@ class RewardManager
             return TextFormat::AQUA.TextFormat::BOLD."LEGENDARY";
         if($percent <= 49)
             return TextFormat::DARK_PURPLE.TextFormat::BOLD."EPIC";
-        if($percent <= 70)
+        if($percent < 70)
             return TextFormat::GOLD.TextFormat::BOLD."RARE";
         if($percent <= 100)
             return TextFormat::GREEN.TextFormat::BOLD."COMMON";
@@ -88,7 +88,7 @@ class RewardManager
             return "Turkis";
         if($percent <= 49)
             return "Lila";
-        if($percent <= 70)
+        if($percent < 70)
             return "Gold";
         if($percent <= 100)
             return "Grun";

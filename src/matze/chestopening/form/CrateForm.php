@@ -12,6 +12,7 @@ use matze\chestopening\crate\Crate;
 use matze\chestopening\crate\CrateManager;
 use matze\chestopening\Loader;
 use matze\chestopening\provider\ChestOpeningProvider;
+use matze\chestopening\reward\RewardManager;
 use matze\chestopening\session\Session;
 use matze\chestopening\session\SessionManager;
 use matze\chestopening\utils\PositionUtils;
@@ -58,6 +59,14 @@ class CrateForm
                 switch ($data) {
                     case "close":
                         return;
+                    case "showcase":
+                        $form = new SimpleForm(function (Player $player, $data): void{});
+                        $form->setTitle(Loader::PREFIX.TextFormat::GREEN."Showcase");
+                        foreach (RewardManager::getRewards() as $reward)
+                            $form->addButton($reward->getName()."\n".TextFormat::DARK_GRAY . "» ".RewardManager::getRarity($reward->getChance()).TextFormat::RESET.TextFormat::DARK_GRAY . " «");
+
+                        $form->sendToPlayer($player);
+                        break;
                     case "buy":
                         if (($ryzerPlayer = RyzerPlayerProvider::getRyzerPlayer($playerName)) != null) {
                             if ($ryzerPlayer->getCoins() >= 6000) {
@@ -89,6 +98,7 @@ class CrateForm
             if ($keys > 0)
                 $form->addButton(TextFormat::GOLD . TextFormat::BOLD . $keys . "x Keys\n" . TextFormat::GRAY . "Click to open", 1, "https://media.discordapp.net/attachments/809475312965910538/837400134211338260/KeyTest.png?width=400&height=400", "open");
             $form->addButton(TextFormat::RED . TextFormat::BOLD . "1x Key\n" . TextFormat::DARK_GRAY . "» " . TextFormat::GOLD . "6000 Coins" . TextFormat::DARK_GRAY . " «", 1, "https://media.discordapp.net/attachments/412217468287713282/837760624451649587/transparent_shopicon.png?width=702&height=702", "buy");
+            $form->addButton(TextFormat::GREEN . TextFormat::BOLD . "Showcase\n" . TextFormat::DARK_GRAY . "» " . TextFormat::GOLD . "Click" . TextFormat::DARK_GRAY . " «", 1, "https://media.discordapp.net/attachments/602115215307309066/838153378026487848/showcase.png?width=225&height=218", "showcase");
 
             $form->addButton("§r§cClose", 0, "textures/ui/realms_red_x", "close");
             $form->sendToPlayer($player);
