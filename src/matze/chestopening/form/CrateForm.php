@@ -23,6 +23,13 @@ use function is_null;
 
 class CrateForm
 {
+    /** @var array  */
+    public static $rarityPicture = [
+        "legendary" => "https://media.discordapp.net/attachments/711642365550526614/838390217323839488/ChestOpeningTurkis.png?width=358&height=341",
+        "epic" => "https://media.discordapp.net/attachments/711642365550526614/838390216200421396/ChestOpeningLila.png?width=358&height=341",
+        "common" => "https://media.discordapp.net/attachments/711642365550526614/838390213994217532/ChestOpeningGrun.png?width=358&height=341",
+        "rare" => "https://media.discordapp.net/attachments/711642365550526614/838390212862148608/ChestOpeningGold.png?width=358&height=341"
+    ];
 
     /**
      * @param Player $player
@@ -62,8 +69,12 @@ class CrateForm
                     case "showcase":
                         $form = new SimpleForm(function (Player $player, $data): void{});
                         $form->setTitle(Loader::PREFIX.TextFormat::GREEN."Showcase");
-                        foreach (RewardManager::getRewards() as $reward)
-                            $form->addButton($reward->getName()."\n".TextFormat::DARK_GRAY . "» ".RewardManager::getRarity($reward->getChance()).TextFormat::RESET.TextFormat::DARK_GRAY . " «");
+                        foreach (RewardManager::getRewards() as $reward) {
+                            $rarity = RewardManager::getRarity($reward->getChance());
+                            $key = strtolower(TextFormat::clean($rarity));
+                            $icon = array_key_exists($key, self::$rarityPicture) ? self::$rarityPicture[$key] : null;
+                            $form->addButton($reward->getName()."\n".TextFormat::DARK_GRAY . "» ".$rarity.TextFormat::RESET.TextFormat::DARK_GRAY . " «", 1, $icon ?? "");
+                        }
 
                         $form->sendToPlayer($player);
                         break;
@@ -96,9 +107,9 @@ class CrateForm
 
             $form->setTitle(Loader::PREFIX);
             if ($keys > 0)
-                $form->addButton(TextFormat::GOLD . TextFormat::BOLD . $keys . "x Keys\n" . TextFormat::GRAY . "Click to open", 1, "https://media.discordapp.net/attachments/809475312965910538/837400134211338260/KeyTest.png?width=400&height=400", "open");
-            $form->addButton(TextFormat::RED . TextFormat::BOLD . "1x Key\n" . TextFormat::DARK_GRAY . "» " . TextFormat::GOLD . "6000 Coins" . TextFormat::DARK_GRAY . " «", 1, "https://media.discordapp.net/attachments/412217468287713282/837760624451649587/transparent_shopicon.png?width=702&height=702", "buy");
-            $form->addButton(TextFormat::GREEN . TextFormat::BOLD . "Showcase\n" . TextFormat::DARK_GRAY . "» " . TextFormat::GOLD . "Click" . TextFormat::DARK_GRAY . " «", 1, "https://media.discordapp.net/attachments/602115215307309066/838153378026487848/showcase.png?width=225&height=218", "showcase");
+                $form->addButton(TextFormat::GOLD . TextFormat::BOLD ."   ". $keys . "x Keys\n" .TextFormat::RESET. TextFormat::GRAY . "Click to open", 1, "https://media.discordapp.net/attachments/809475312965910538/837400134211338260/KeyTest.png?width=400&height=400", "open");
+            $form->addButton(TextFormat::RED . TextFormat::BOLD . "1x Key\n" . TextFormat::RESET.TextFormat::DARK_GRAY . "» " . TextFormat::GOLD . "6000 Coins" . TextFormat::DARK_GRAY . " «", 1, "https://media.discordapp.net/attachments/412217468287713282/837760624451649587/transparent_shopicon.png?width=702&height=702", "buy");
+            $form->addButton(TextFormat::GREEN . TextFormat::BOLD . "Showcase\n" . TextFormat::RESET.TextFormat::DARK_GRAY . "» " . TextFormat::GOLD . "Click" . TextFormat::DARK_GRAY . " «", 1, "https://media.discordapp.net/attachments/602115215307309066/838153378026487848/showcase.png?width=225&height=218", "showcase");
 
             $form->addButton("§r§cClose", 0, "textures/ui/realms_red_x", "close");
             $form->sendToPlayer($player);
