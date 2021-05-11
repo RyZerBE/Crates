@@ -24,7 +24,6 @@ class Crate {
     public function __construct(Position $position){
         $vector3 = $position->floor()->add(0.5, 0, 0.5);
         $this->position = new Position($vector3->x, $vector3->y, $vector3->z, $position->getLevel());
-        $this->initFloatingText();
     }
 
     /**

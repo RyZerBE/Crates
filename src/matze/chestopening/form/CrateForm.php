@@ -72,7 +72,7 @@ class CrateForm
                         foreach (RewardManager::getRewards() as $reward) {
                             $rarity = RewardManager::getRarity($reward->getChance());
                             $key = strtolower(TextFormat::clean($rarity));
-                            $icon = array_key_exists($key, self::$rarityPicture) ? self::$rarityPicture[$key] : null;
+                            $icon = array_key_exists($key, CrateForm::$rarityPicture) ? CrateForm::$rarityPicture[$key] : null;
                             $form->addButton($reward->getName()."\n".TextFormat::DARK_GRAY . "» ".$rarity.TextFormat::RESET.TextFormat::DARK_GRAY . " «", 1, $icon ?? "");
                         }
 

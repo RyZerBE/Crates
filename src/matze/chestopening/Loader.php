@@ -72,6 +72,8 @@ class Loader extends PluginBase {
             new PlayerInteractListener(),
             new BlockBreakListener()
         ];
+
+        new CrateManager();
         foreach($listeners as $listener) {
             Server::getInstance()->getPluginManager()->registerEvents($listener, $this);
         }
