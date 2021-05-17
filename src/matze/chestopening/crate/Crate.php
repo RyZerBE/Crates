@@ -56,12 +56,14 @@ class Crate {
     }
 
     private function initFloatingText(): void {
+        $position = $this->getPosition();
+        $position->getLevel()->loadChunk($position->getFloorX() >> 4, $position->getFloorZ() >> 4);
         if($this->isInUse()) {
             if(is_null($this->floatingText) || $this->floatingText->isClosed()) return;
             $this->floatingText->flagForDespawn();
             return;
         }
-        $this->floatingText = new FloatingText(new Position($this->getPosition()->x, $this->getPosition()->y + 1, $this->getPosition()->z, $this->getPosition()->getLevel()));
+        $this->floatingText = new FloatingText(new Position($position->x, $position->y + 1, $position->z, $position->getLevel()));
         $this->floatingText->setLifeTime(null);
         $this->floatingText->setText(Loader::PREFIX."\n".TextFormat::GRAY."["."Click"."]");
     }
