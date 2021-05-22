@@ -31,6 +31,6 @@ class LottoTicket extends Reward
         $lobbyPlayer = LobbySystem::getPlayerCache($player->getName());
         if($lobbyPlayer === null) return;
 
-        LottoProvider::addTicket($lobbyPlayer, $this->amount);
+        LobbySystem::getLottoProvider()->addTicket($lobbyPlayer, $this->amount);
     }
 }
