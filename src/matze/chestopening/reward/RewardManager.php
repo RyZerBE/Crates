@@ -48,12 +48,12 @@ class RewardManager
             (new AngryVillagerParticle())->setChance(65),
             (new LottoTicket(5))->setChance(65),
             (new LottoTicket(12))->setChance(65),
-            (new FireWings())->setChance(40),
-            (new CoinBomb())->setChance(40),
-            (new SpidermanGun())->setChance(40),
-            (new StarterKit())->setChance(10),
-            (new VampireKit())->setChance(10),
-            (new DemolitionistKit())->setChance(10),
+            (new FireWings())->setChance(20),
+            (new CoinBomb())->setChance(20),
+            (new SpidermanGun())->setChance(20),
+            (new StarterKit())->setChance(5),
+            (new VampireKit())->setChance(5),
+            (new DemolitionistKit())->setChance(5),
         ];
 
         foreach ($rewards as $reward)
