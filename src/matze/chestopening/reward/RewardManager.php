@@ -97,35 +97,16 @@ class RewardManager
     }
 
     /**
-     * @param float $chance
-     * @return bool
+     * @return Reward|null
      */
-    public static function calculateChance(float $chance): bool
-    {
-        if($chance <= 0){ // there is no 0% chance, it's either 1 to 100 or 100
-            return true;
+    public static function getCalculatedReward(): ?Reward {
+        $rewards = [];
+        foreach(self::getRewards() as $reward) {
+            if($reward->getChance() >= mt_rand(1, 100)) continue;
+            $rewards[] = $reward;
         }
-
-        $count = strlen(substr(strrchr(strval($chance), "."), 1));
-        $multiply = intval("1" . str_repeat("0", $count));
-
-        return mt_rand(1, (100 * $multiply)) <= ($chance * $multiply);
-    }
-
-    public static function getCalculatedReward(): ?Reward
-    {
-        $calculatedReward = null;
-        $rewards = self::getRewards();
-        while(true){
-            /** @var \matze\chestopening\reward\Reward $reward */
-            foreach($rewards as $reward){
-                if(self::calculateChance($reward->getChance())){
-                    $calculatedReward = $reward;
-                    break 2;
-                }
-            }
-        }
-
-        return $calculatedReward;
+        if(empty($rewards)) $rewards[] = self::getRewards()[0];
+        shuffle($rewards);
+        return $rewards[array_rand($rewards)];
     }
 }
