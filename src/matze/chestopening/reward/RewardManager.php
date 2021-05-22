@@ -103,7 +103,7 @@ class RewardManager
         $rewards = [];
         foreach(self::getRewards() as $reward) {
             if($reward->getChance() >= mt_rand(1, 100)) continue;
-            for($i = 0; $i <= $reward->getChance(); $i++) $rewards[] = $reward;
+            for($i = 0; $i <= ($reward->getChance() * 2); $i++) $rewards[] = $reward;
         }
         if(empty($rewards)) $rewards[] = self::getRewards()[0];
         shuffle($rewards);
