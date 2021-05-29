@@ -105,7 +105,7 @@ class RewardManager
      */
     public static function getCalculatedReward(): ?Reward {
         $rewards = [];
-        for($i = 1; $i <= 100; $i++) {
+        for($i = 1; $i <= 200; $i++) {
             $rewards[] = self::getRewards()[mt_rand(0, 2)];
         }
         foreach(self::getRewards() as $reward) {
