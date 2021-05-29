@@ -19,6 +19,10 @@ use matze\chestopening\reward\types\lobby\walkingblock\RichRichWalkingBlock;
 use matze\chestopening\reward\types\lobby\wing\FireWings;
 use matze\chestopening\reward\types\MoneyReward;
 use pocketmine\utils\TextFormat;
+use function array_rand;
+use function mt_rand;
+use function shuffle;
+use function sqrt;
 
 class RewardManager
 {
@@ -101,11 +105,14 @@ class RewardManager
      */
     public static function getCalculatedReward(): ?Reward {
         $rewards = [];
-        foreach(self::getRewards() as $reward) {
-            if($reward->getChance() >= mt_rand(1, 100)) continue;
-            for($i = 0; $i <= ($reward->getChance() * 2); $i++) $rewards[] = $reward;
+        for($i = 1; $i <= 100; $i++) {
+            $rewards[] = self::getRewards()[mt_rand(0, 2)];
         }
-        if(empty($rewards)) $rewards[] = self::getRewards()[0];
+        foreach(self::getRewards() as $reward) {
+            for($chance = 1; $chance <= $reward->getChance(); $chance++) {
+                $rewards[] = $reward;
+            }
+        }
         shuffle($rewards);
         return $rewards[array_rand($rewards)];
     }
