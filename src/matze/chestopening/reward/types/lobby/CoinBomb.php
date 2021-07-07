@@ -5,6 +5,7 @@ namespace matze\chestopening\reward\types\lobby;
 
 
 use BauboLP\Core\Provider\AsyncExecutor;
+use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;
 use matze\chestopening\reward\Reward;
 use pocketmine\Player;
 use BauboLP\LobbySystem\LobbySystem;
@@ -19,7 +20,7 @@ class CoinBomb extends Reward
 
     public function onReceive(Player $player): void
     {
-        $lobbyPlayer = LobbySystem::getPlayerCache($player->getName());
+        $lobbyPlayer = LobbyPlayerCache::getLobbyPlayer($player);
         if($lobbyPlayer === null) return;
 
         $playerName = $player->getName();

@@ -3,9 +3,9 @@
 namespace matze\chestopening\form;
 
 use BauboLP\Core\Player\RyzerPlayerProvider;
-use BauboLP\Core\Provider\AsyncExecutor;
-use BauboLP\Core\Provider\CoinProvider;
-use BauboLP\Core\Provider\LanguageProvider;
+use baubolp\core\provider\AsyncExecutor;
+use baubolp\core\provider\CoinProvider;
+use baubolp\core\provider\LanguageProvider;
 use jojoe77777\FormAPI\SimpleForm;
 use matze\chestopening\animation\types\normal\NormalAnimation;
 use matze\chestopening\crate\Crate;

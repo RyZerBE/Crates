@@ -4,11 +4,11 @@
 namespace matze\chestopening\reward\types\lobby;
 
 
+use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;
+use baubolp\ryzerbe\lobbycore\provider\LottoProvider;
 use matze\chestopening\reward\Reward;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
-use BauboLP\LobbySystem\Provider\LottoProvider;
-use BauboLP\LobbySystem\LobbySystem;
 
 
 class LottoTicket extends Reward
@@ -28,9 +28,9 @@ class LottoTicket extends Reward
 
     public function onReceive(Player $player): void
     {
-        $lobbyPlayer = LobbySystem::getPlayerCache($player->getName());
+        $lobbyPlayer = LobbyPlayerCache::getLobbyPlayer($player);
         if($lobbyPlayer === null) return;
 
-        LobbySystem::getLottoProvider()->addTicket($lobbyPlayer, $this->amount);
+        LottoProvider::addTicket($lobbyPlayer, $this->amount);
     }
 }

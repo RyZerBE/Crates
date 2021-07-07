@@ -9,6 +9,6 @@ class AngryVillagerParticle extends LobbyParticle
 
     public function getParticleName(): string
     {
-        return "AngryVillager";
+        return "particle:angry_villager";
     }
 }

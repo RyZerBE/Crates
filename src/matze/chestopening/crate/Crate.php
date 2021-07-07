@@ -14,8 +14,11 @@ class Crate {
     private $position;
     /** @var bool  */
     private $inUse = false;
-    /** @var FloatingText */
-    private $floatingText;
+    /** @var FloatingText|null */
+    private $floatingText = null;
+
+    /** @var bool  */
+    private $init = false;
 
     /**
      * Crate constructor.
@@ -48,6 +51,20 @@ class Crate {
     }
 
     /**
+     * @return bool
+     */
+    public function isInit(): bool{
+        return $this->init;
+    }
+
+    /**
+     * @param bool $init
+     */
+    public function setInit(bool $init): void{
+        $this->init = $init;
+    }
+
+    /**
      * @param bool $inUse
      */
     public function setInUse(bool $inUse): void{
@@ -59,10 +76,11 @@ class Crate {
         $position = $this->getPosition();
         $position->getLevel()->loadChunk($position->getFloorX() >> 4, $position->getFloorZ() >> 4);
         if($this->isInUse()) {
-            if(is_null($this->floatingText) || $this->floatingText->isClosed()) return;
+            if($this->floatingText === null || $this->floatingText->isClosed()) return;
             $this->floatingText->flagForDespawn();
             return;
         }
+        if($this->floatingText !== null && !$this->floatingText->isClosed()) return;
         $this->floatingText = new FloatingText(new Position($position->x, $position->y + 1, $position->z, $position->getLevel()));
         $this->floatingText->setLifeTime(null);
         $this->floatingText->setText(Loader::PREFIX."\n".TextFormat::GRAY."["."Click"."]");

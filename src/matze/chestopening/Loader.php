@@ -10,8 +10,7 @@ use matze\chestopening\entity\FloatingText;
 use matze\chestopening\listener\BlockBreakListener;
 use matze\chestopening\listener\BlockPlaceListener;
 use matze\chestopening\listener\PlayerInteractListener;
-use matze\chestopening\rarity\RarityManager;
-use matze\chestopening\reward\Reward;
+use matze\chestopening\listener\PlayerJoinListener;
 use matze\chestopening\reward\RewardManager;
 use matze\chestopening\scheduler\CrateUpdateTask;
 use matze\chestopening\session\SessionManager;
@@ -70,7 +69,8 @@ class Loader extends PluginBase {
         $listeners = [
             new BlockPlaceListener(),
             new PlayerInteractListener(),
-            new BlockBreakListener()
+            new BlockBreakListener(),
+            new PlayerJoinListener()
         ];
 
         new CrateManager();

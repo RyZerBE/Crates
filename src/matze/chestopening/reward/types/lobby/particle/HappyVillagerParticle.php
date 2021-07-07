@@ -9,6 +9,6 @@ class HappyVillagerParticle extends LobbyParticle
 
     public function getParticleName(): string
     {
-        return "HappyVillager";
+        return "particle:happy_villager";
     }
 }

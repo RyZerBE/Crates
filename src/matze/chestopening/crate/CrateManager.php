@@ -60,4 +60,11 @@ class CrateManager {
     public function getCrate(Position $position): ?Crate {
         return $this->crates[PositionUtils::toString(PositionUtils::floor($position))] ?? null;
     }
+
+    /**
+     * @return Crate[]
+     */
+    public function getCrates(): array{
+        return $this->crates;
+    }
 }

@@ -6,6 +6,10 @@ namespace matze\chestopening\reward\types\lobby\particle;
 
 use BauboLP\Core\Provider\AsyncExecutor;
 use BauboLP\Core\Provider\LanguageProvider;
+use baubolp\ryzerbe\lobbycore\cosmetic\CosmeticManager;
+use baubolp\ryzerbe\lobbycore\cosmetic\type\itemrain\ItemRainCosmetic;
+use baubolp\ryzerbe\lobbycore\cosmetic\type\particle\ParticleCosmetic;
+use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;
 use matze\chestopening\Loader;
 use matze\chestopening\provider\ChestOpeningProvider;
 use matze\chestopening\reward\Reward;
@@ -20,40 +24,25 @@ abstract class LobbyParticle extends Reward
 
     public function getName(): string
     {
-        return TextFormat::LIGHT_PURPLE.$this->getParticleName().TextFormat::DARK_GRAY."(".TextFormat::YELLOW."Lobby".TextFormat::DARK_GRAY.")";
+        $cosmetic = CosmeticManager::getInstance()->getCosmetic($this->getParticleName());
+        if(!$cosmetic instanceof ParticleCosmetic) return "§cError";
+        return TextFormat::LIGHT_PURPLE.$cosmetic->getName()." Particle ".TextFormat::DARK_GRAY."(".TextFormat::YELLOW."Lobby".TextFormat::DARK_GRAY.")";
     }
 
     public function onReceive(Player $player): void
     {
+        $particle = $this->getParticleName();
+        $lobbyPlayer = LobbyPlayerCache::getLobbyPlayer($player);
+        if($lobbyPlayer === null) return;
+        $cosmetic = CosmeticManager::getInstance()->getCosmetic($particle);
+        if(!$cosmetic instanceof ParticleCosmetic) return;
         $playerName = $player->getName();
-        $particleName = $this->getParticleName();
-        AsyncExecutor::submitMySQLAsyncTask("Lobby", function (\mysqli $mysqli) use ($playerName, $particleName){
-            $res = $mysqli->query("SELECT particles FROM LobbyPlayer WHERE playername='$playerName'");
-            $particles = "";
-            if($res->num_rows > 0) {
-                while($data = $res->fetch_assoc()) {
-                    $particles = $data["particles"];
-                    break;
-                }
-            }
 
-            $particlesArray = explode(":", $particles);
-            if(in_array($particleName, $particlesArray))
-                return null;
-
-            $particlesArray[] = $particleName;
-            $particles = implode(":", $particlesArray);
-            $mysqli->query("UPDATE `LobbyPlayer` SET particles='$particles' WHERE playername='$playerName'");
-
-            return true;
-        }, function (Server $server, $res) use ($playerName, $particleName) {
-            $player = $server->getPlayerExact($playerName);
-            if(is_null($player)) return;
-            if(is_null($res)) {
-                $player->sendMessage(Loader::PREFIX.LanguageProvider::getMessageContainer("crate-already-have", $playerName, ["#article" => $particleName]));
-                ChestOpeningProvider::addKey($playerName);
-                return;
-            }
-        });
+        if($lobbyPlayer->isCosmeticUnlocked($cosmetic)) {
+            $player->sendMessage(Loader::PREFIX.LanguageProvider::getMessageContainer("crate-already-have", $playerName, ["#article" => $cosmetic->getName()]));
+            ChestOpeningProvider::addKey($playerName);
+        } else {
+            $lobbyPlayer->unlockCosmetic($cosmetic);
+        }
     }
 }
