@@ -26,7 +26,7 @@ class CoinBomb extends Reward
         $playerName = $player->getName();
         $lobbyPlayer->setCoinBombs($lobbyPlayer->getCoinBombs() + 1);
         AsyncExecutor::submitMySQLAsyncTask("Lobby", function (\mysqli $mysqli) use ($playerName){
-            $mysqli->query("UPDATE CoinBomb SET bombs=bombs+1 WHERE playername='$playerName'");
+            $mysqli->query("UPDATE Coinbombs SET bombs=bombs+1 WHERE playername='$playerName'");
         });
     }
 }

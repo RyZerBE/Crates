@@ -11,6 +11,7 @@ use pocketmine\math\Vector3;
 use pocketmine\Player;
 use function is_null;
 use function spl_object_id;
+use function var_dump;
 
 /**
  * Class FloatingText
@@ -147,7 +148,7 @@ class FloatingText extends Entity implements ChunkLoader {
      * @return bool
      */
     public function isLoaderActive(): bool{
-        return $this->isAlive() && !$this->isClosed();
+        return !$this->isClosed();
     }
 
     public function onChunkPopulated(Chunk $chunk){
@@ -163,5 +164,6 @@ class FloatingText extends Entity implements ChunkLoader {
     }
 
     public function onChunkUnloaded(Chunk $chunk){
+        var_dump("This should not happen");
     }
 }
