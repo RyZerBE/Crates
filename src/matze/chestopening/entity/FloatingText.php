@@ -81,9 +81,6 @@ class FloatingText extends Entity implements ChunkLoader {
         if(!is_null($this->lifeTime)) {
             if($this->ticksLived >= $this->getLifeTime()) $this->flagForDespawn();
         }
-
-        Server::getInstance()->broadcastTip("Alive");
-
         if($currentTick % 40 === 0) $this->teleport($this->forcePosition);
         return parent::onUpdate($currentTick);
     }
