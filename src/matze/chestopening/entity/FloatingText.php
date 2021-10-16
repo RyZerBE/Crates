@@ -8,22 +8,12 @@ use pocketmine\level\ChunkLoader;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\Server;
 use function is_null;
 use function spl_object_id;
 use function var_dump;
 
-/**
- * Class FloatingText
- * @package matze\chestopening\entity
- *
- *
- * Do not complain about this code
- * It´s over 6 months old and I was too lazy to write a new one
- */
 class FloatingText extends Entity implements ChunkLoader {
-
-    /** @var int  */
     public const NETWORK_ID = self::VILLAGER;
 
     /** @var float  */
@@ -37,30 +27,17 @@ class FloatingText extends Entity implements ChunkLoader {
     public $drag = 0;
 
     /** @var int|null */
-    private $lifeTime = 0;
+    private ?int $lifeTime = 0;
     /** @var Position */
-    private $forcePosition;
+    private Position $forcePosition;
 
-    /**
-     * FloatingText constructor.
-     * @param Position|null $position
-     * @param Player ...$viewers
-     */
-    public function __construct($position = null, ...$viewers) {
-        if(!$position instanceof Position) return;
+    public function __construct(Position $position) {
         $this->forcePosition = $position;
         $level = $position->getLevel();
         $nbt = Entity::createBaseNBT($position);
         parent::__construct($level, $nbt);
-        $this->setScale(0.000000001);//loooooooooooooooooooooooooooooooool
-        if(empty($viewers)) {
-            $this->spawnToAll();
-        } else {
-            foreach ($viewers as $player) {
-                if(!$viewers instanceof Player) continue;
-                $this->spawnTo($player);
-            }
-        }
+        $this->setScale(0.000000001);
+        $this->spawnToAll();
 
         $this->setGenericFlag(self::DATA_FLAG_SILENT, true);
     }
@@ -104,6 +81,9 @@ class FloatingText extends Entity implements ChunkLoader {
         if(!is_null($this->lifeTime)) {
             if($this->ticksLived >= $this->getLifeTime()) $this->flagForDespawn();
         }
+
+        Server::getInstance()->broadcastTip("Alive");
+
         if($currentTick % 40 === 0) $this->teleport($this->forcePosition);
         return parent::onUpdate($currentTick);
     }

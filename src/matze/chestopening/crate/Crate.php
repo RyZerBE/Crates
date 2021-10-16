@@ -6,24 +6,19 @@ use matze\chestopening\entity\FloatingText;
 use matze\chestopening\Loader;
 use pocketmine\level\Position;
 use pocketmine\utils\TextFormat;
-use function is_null;
 
 class Crate {
 
     /** @var Position */
-    private $position;
+    private Position $position;
     /** @var bool  */
-    private $inUse = false;
+    private bool $inUse = false;
     /** @var FloatingText|null */
-    private $floatingText = null;
+    private ?FloatingText $floatingText = null;
 
     /** @var bool  */
-    private $init = false;
+    private bool $init = false;
 
-    /**
-     * Crate constructor.
-     * @param Position $position
-     */
     public function __construct(Position $position){
         $vector3 = $position->floor()->add(0.5, 0, 0.5);
         $this->position = new Position($vector3->x, $vector3->y, $vector3->z, $position->getLevel());
@@ -43,10 +38,7 @@ class Crate {
         return $this->inUse;
     }
 
-    /**
-     * @return FloatingText
-     */
-    public function getFloatingText(): FloatingText{
+    public function getFloatingText(): ?FloatingText{
         return $this->floatingText;
     }
 
@@ -72,7 +64,7 @@ class Crate {
         $this->initFloatingText();
     }
 
-    private function initFloatingText(): void {
+    public function initFloatingText(): void {
         $position = $this->getPosition();
         $position->getLevel()->loadChunk($position->getFloorX() >> 4, $position->getFloorZ() >> 4);
         if($this->isInUse()) {

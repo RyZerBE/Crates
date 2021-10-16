@@ -5,10 +5,10 @@ namespace matze\chestopening\reward\types\lobby;
 
 
 use BauboLP\Core\Provider\AsyncExecutor;
+use BauboLP\LobbySystem\LobbySystem;
 use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;
 use matze\chestopening\reward\Reward;
 use pocketmine\Player;
-use BauboLP\LobbySystem\LobbySystem;
 
 class CoinBomb extends Reward
 {

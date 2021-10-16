@@ -2,7 +2,6 @@
 
 namespace matze\chestopening\session;
 
-use BauboLP\Core\Provider\AsyncExecutor;
 use matze\chestopening\animation\Animation;
 use matze\chestopening\crate\Crate;
 use matze\chestopening\Loader;
@@ -11,11 +10,9 @@ use matze\chestopening\rarity\Rarity;
 use matze\chestopening\reward\Reward;
 use matze\chestopening\reward\RewardManager;
 use matze\chestopening\reward\types\MoneyReward;
-use matze\chestopening\utils\AsyncExecuter;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
 use pocketmine\scheduler\ClosureTask;
-use function array_rand;
 
 class Session {
 

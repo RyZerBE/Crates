@@ -4,17 +4,14 @@
 namespace matze\chestopening\reward\types\lobby\particle;
 
 
-use BauboLP\Core\Provider\AsyncExecutor;
 use BauboLP\Core\Provider\LanguageProvider;
 use baubolp\ryzerbe\lobbycore\cosmetic\CosmeticManager;
-use baubolp\ryzerbe\lobbycore\cosmetic\type\itemrain\ItemRainCosmetic;
 use baubolp\ryzerbe\lobbycore\cosmetic\type\particle\ParticleCosmetic;
 use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;
 use matze\chestopening\Loader;
 use matze\chestopening\provider\ChestOpeningProvider;
 use matze\chestopening\reward\Reward;
 use pocketmine\Player;
-use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
 abstract class LobbyParticle extends Reward

@@ -10,7 +10,6 @@ use matze\chestopening\reward\Reward;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-
 class LottoTicket extends Reward
 {
     /** @var int */

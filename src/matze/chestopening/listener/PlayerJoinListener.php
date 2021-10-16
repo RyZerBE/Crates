@@ -13,7 +13,10 @@ class PlayerJoinListener implements Listener {
      */
     public function onJoin(PlayerJoinEvent $event): void {
         foreach(CrateManager::getInstance()->getCrates() as $crate) {
-            if($crate->isInit()) continue;
+            if($crate->isInit()){
+                $crate->initFloatingText();
+                continue;
+            }
             $crate->setInit(true);
             $crate->setInUse(false);
         }
