@@ -2,7 +2,7 @@
 
 namespace matze\chestopening\form;
 
-use BauboLP\Core\Player\RyzerPlayerProvider;
+use ryzerbe\core\player\RyZerPlayerProvider;
 use ryzerbe\core\util\async\AsyncExecutor;
 use ryzerbe\core\provider\CoinProvider;
 use ryzerbe\core\language\LanguageProvider;
@@ -79,7 +79,7 @@ class CrateForm
                         $form->sendToPlayer($player);
                         break;
                     case "buy":
-                        if (($ryzerPlayer = RyzerPlayerProvider::getRyzerPlayer($playerName)) != null) {
+                        if (($ryzerPlayer = RyZerPlayerProvider::getRyzerPlayer($playerName)) != null) {
                             if ($ryzerPlayer->getCoins() >= 6000) {
                                 CoinProvider::removeCoins($playerName, 6000);
                                 ChestOpeningProvider::addKey($playerName);
