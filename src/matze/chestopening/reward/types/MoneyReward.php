@@ -2,7 +2,7 @@
 
 namespace matze\chestopening\reward\types;
 
-use baubolp\core\provider\CoinProvider;
+use ryzerbe\core\provider\CoinProvider;
 use matze\chestopening\reward\Reward;
 use pocketmine\Player;
 

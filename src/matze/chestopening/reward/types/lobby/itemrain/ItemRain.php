@@ -2,7 +2,7 @@
 
 namespace matze\chestopening\reward\types\lobby\itemrain;
 
-use baubolp\core\provider\LanguageProvider;
+use ryzerbe\core\language\LanguageProvider;
 use baubolp\ryzerbe\lobbycore\cosmetic\CosmeticManager;
 use baubolp\ryzerbe\lobbycore\cosmetic\type\itemrain\ItemRainCosmetic;
 use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;

@@ -2,7 +2,7 @@
 
 namespace matze\chestopening\listener;
 
-use BauboLP\Core\Provider\LanguageProvider;
+use ryzerbe\core\language\LanguageProvider;
 use matze\chestopening\crate\CrateManager;
 use matze\chestopening\form\CrateForm;
 use matze\chestopening\Loader;

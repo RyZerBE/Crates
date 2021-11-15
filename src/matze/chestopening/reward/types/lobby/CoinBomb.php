@@ -4,7 +4,7 @@
 namespace matze\chestopening\reward\types\lobby;
 
 
-use BauboLP\Core\Provider\AsyncExecutor;
+use ryzerbe\core\util\async\AsyncExecutor;
 use BauboLP\LobbySystem\LobbySystem;
 use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;
 use matze\chestopening\reward\Reward;

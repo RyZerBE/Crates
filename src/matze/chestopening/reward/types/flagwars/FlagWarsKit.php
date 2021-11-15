@@ -4,7 +4,7 @@
 namespace matze\chestopening\reward\types\flagwars;
 
 
-use BauboLP\Core\Provider\AsyncExecutor;
+use ryzerbe\core\util\async\AsyncExecutor;
 use matze\chestopening\reward\Reward;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;

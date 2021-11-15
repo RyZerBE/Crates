@@ -3,7 +3,7 @@
 
 namespace matze\chestopening\reward\types\lobby\walkingblock;
 
-use BauboLP\Core\Provider\LanguageProvider;
+use ryzerbe\core\language\LanguageProvider;
 use baubolp\ryzerbe\lobbycore\cosmetic\CosmeticManager;
 use baubolp\ryzerbe\lobbycore\cosmetic\type\walkingblocks\WalkingBlocksCosmetic;
 use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;

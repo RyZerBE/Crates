@@ -4,7 +4,7 @@
 namespace matze\chestopening\reward\types\lobby\particle;
 
 
-use BauboLP\Core\Provider\LanguageProvider;
+use ryzerbe\core\language\LanguageProvider;
 use baubolp\ryzerbe\lobbycore\cosmetic\CosmeticManager;
 use baubolp\ryzerbe\lobbycore\cosmetic\type\particle\ParticleCosmetic;
 use baubolp\ryzerbe\lobbycore\player\LobbyPlayerCache;

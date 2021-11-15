@@ -2,7 +2,6 @@
 
 namespace matze\chestopening;
 
-use BauboLP\Core\Provider\AsyncExecutor;
 use matze\chestopening\animation\types\normal\BoxEntity;
 use matze\chestopening\command\CrateCommand;
 use matze\chestopening\crate\CrateManager;
@@ -18,6 +17,7 @@ use pocketmine\entity\Entity;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
+use ryzerbe\core\util\async\AsyncExecutor;
 
 class Loader extends PluginBase {
 

@@ -2,7 +2,7 @@
 
 namespace matze\chestopening\provider;
 
-use BauboLP\Core\Provider\AsyncExecutor;
+use ryzerbe\core\util\async\AsyncExecutor;
 use pocketmine\Server;
 
 class ChestOpeningProvider {
