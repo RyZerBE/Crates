@@ -45,7 +45,7 @@ class Loader extends PluginBase {
     }
 
     public function onDisable(){
-        CrateManager::getInstance()->save();
+        //CrateManager::getInstance()->save();
     }
 
     /**

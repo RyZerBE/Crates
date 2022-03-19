@@ -24,14 +24,14 @@ class CrateManager {
     }
 
     public function load(): void {
-        $file = new Config(Loader::getInstance()->getDataFolder() . "crates.json", -1, []);
+        $file = new Config(Loader::getInstance()->getDataFolder() . "crates.json", Config::JSON, []);
         foreach($file->getAll() as $crate) {
             $this->addCrate(new Crate(PositionUtils::fromString($crate)));
         }
     }
 
     public function save(): void {
-        $file = new Config(Loader::getInstance()->getDataFolder() . "crates.json", -1, []);
+        $file = new Config(Loader::getInstance()->getDataFolder() . "crates.json", Config::JSON, []);
         $file->setAll(array_keys($this->crates));
         $file->save();
     }
